@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roll Number Assignment</title>
+    <title>Roll Number Assigner</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    
     <style>
-        /* ... (Same styles as before) ... */
+        
         body {
             background: linear-gradient(to bottom right, #1a202c, #2d3748);
             background-size: cover;
@@ -125,8 +128,10 @@
         .clear-all-button.active {
             background-color: #ff6b6b; /* Light red */
         }
+        
     </style>
 </head>
+    
 <body>
 
 <div class="container">
@@ -158,7 +163,7 @@
 <!-- Alert Modal -->
 <div class="fixed z-50 inset-0 flex justify-center items-center" id="alertModal" style="display: none;">
     <div class="bg-white p-6 rounded shadow-lg text-center">
-        <p class="mb-4">All the names will be sorted in alphabetical order with respect to surnames.</p>
+        <p class="mb-4">All The Names Will Be Sorted In Alphabetical Order With Respect To Surnames.</p>
         <button id="continueButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Continue</button>
     </div>
 </div>
@@ -223,10 +228,7 @@
             }
         }
         
-        // Sorting logic remains unchanged
     });
-
-    // ... (Rest of the script remains unchanged)
 
     addButton.addEventListener('click', () => {
         const surname = document.getElementById('surname').value.trim();
