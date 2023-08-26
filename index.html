@@ -1,0 +1,274 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roll Number Assignment</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #1a202c, #2d3748);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            margin: auto;
+            margin-top: 50px;
+            color: white;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .names-list {
+            text-align: left;
+        }
+
+        .sorted-names {
+            margin-top: 20px; /* Increased distance */
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            margin: auto;
+        }
+
+        .sorted-names h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .sorted-names ul {
+            list-style: none;
+            padding: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .sorted-names li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .make-changes-button {
+            display: block;
+            width: 100%;
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            padding: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .make-changes-button:hover {
+            background-color: #2766b8;
+        }
+
+        .sort-button,
+        .clear-button,
+        .clear-all-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .sort-button:disabled,
+        .clear-button:disabled,
+        .clear-all-button:disabled {
+            background-color: #7c7c7c;
+            cursor: not-allowed;
+        }
+
+        .sort-button:hover:enabled,
+        .clear-button:hover:enabled,
+        .clear-all-button:hover:enabled {
+            background-color: #45a049;
+        }
+
+        .clear-button.active {
+            background-color: #ff8c00; /* Light orange */
+        }
+
+        .clear-all-button.active {
+            background-color: #ff6b6b; /* Light red */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-3xl mb-6">Roll Number Assignment</h1>
+
+    <div class="input-group">
+        <label for="surname">Surname</label>
+        <input type="text" id="surname" class="block w-full p-2 rounded bg-transparent border border-gray-300 focus:border-blue-500">
+    </div>
+    <div class="input-group">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" class="block w-full p-2 rounded bg-transparent border border-gray-300 focus:border-blue-500">
+    </div>
+    <div class="input-group">
+        <label for="middleName">Middle Name</label>
+        <input type="text" id="middleName" class="block w-full p-2 rounded bg-transparent border border-gray-300 focus:border-blue-500">
+    </div>
+    <button id="addButton" class="block w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Add</button>
+
+    <div class="names-list" id="namesList"></div>
+
+    <div class="button-group">
+        <button id="sortButton" class="sort-button" disabled>Sort Names</button>
+        <button id="clearButton" class="clear-button" disabled>Clear</button>
+        <button id="clearAllButton" class="clear-all-button" disabled>Clear All</button>
+    </div>
+</div>
+
+<div class="sorted-names hidden mt-6" id="sortedNames">
+    <h2 class="text-2xl mb-2">Sorted Names:</h2>
+    <ul id="sortedList"></ul>
+    <button id="changesButton" class="make-changes-button mt-4">Make Changes</button>
+</div>
+
+<script>
+    const names = [];
+    let rollNumber = 1;
+    const addButton = document.getElementById('addButton');
+    const sortButton = document.getElementById('sortButton');
+    const clearButton = document.getElementById('clearButton');
+    const clearAllButton = document.getElementById('clearAllButton');
+    const changesButton = document.getElementById('changesButton');
+    const namesList = document.getElementById('namesList');
+    const sortedNames = document.getElementById('sortedNames');
+    const sortedList = document.getElementById('sortedList');
+
+    addButton.addEventListener('click', () => {
+        const surname = document.getElementById('surname').value.trim();
+        const firstName = document.getElementById('firstName').value.trim();
+        const middleName = document.getElementById('middleName').value.trim();
+
+        if (surname && firstName && middleName) {
+            const fullName = `${surname} ${firstName} ${middleName}`;
+            names.push(fullName);
+
+            const nameItem = document.createElement('p');
+            nameItem.textContent = fullName;
+            namesList.appendChild(nameItem);
+
+            document.getElementById('surname').value = '';
+            document.getElementById('firstName').value = '';
+            document.getElementById('middleName').value = '';
+
+            sortButton.removeAttribute('disabled');
+            clearButton.removeAttribute('disabled');
+            clearAllButton.removeAttribute('disabled');
+            clearButton.classList.add('active'); // Add active class
+            clearAllButton.classList.add('active'); // Add active class
+        }
+    });
+
+    sortButton.addEventListener('click', () => {
+        sortedList.innerHTML = '';
+        sortButton.setAttribute('disabled', 'true');
+        clearButton.setAttribute('disabled', 'true');
+        clearAllButton.setAttribute('disabled', 'true');
+
+        if (rollNumber > 1) {
+            rollNumber = 1;
+        }
+
+        names.sort((a, b) => {
+            const surnameA = a.split(' ')[0];
+            const surnameB = b.split(' ')[0];
+            if (surnameA !== surnameB) {
+                return surnameA.localeCompare(surnameB);
+            } else {
+                const firstNameA = a.split(' ')[1];
+                const firstNameB = b.split(' ')[1];
+                if (firstNameA !== firstNameB) {
+                    return firstNameA.localeCompare(firstNameB);
+                } else {
+                    const middleNameA = a.split(' ')[2];
+                    const middleNameB = b.split(' ')[2];
+                    return middleNameA.localeCompare(middleNameB);
+                }
+            }
+        });
+
+        sortedNames.classList.remove('hidden');
+        changesButton.scrollIntoView({ behavior: 'smooth' });
+
+        for (const name of names) {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${rollNumber}. ${name}`;
+            sortedList.appendChild(listItem);
+            rollNumber++;
+        }
+    });
+
+    changesButton.addEventListener('click', () => {
+        sortedNames.classList.add('hidden');
+        sortButton.removeAttribute('disabled');
+        if (names.length > 0) {
+            clearButton.removeAttribute('disabled');
+            clearAllButton.removeAttribute('disabled');
+        }
+        clearButton.classList.add('active'); // Add active class
+        clearAllButton.classList.add('active'); // Add active class
+    });
+
+    clearButton.addEventListener('click', () => {
+        if (names.length > 0) {
+            names.pop();
+            namesList.removeChild(namesList.lastChild);
+            rollNumber--;
+            if (names.length === 0) {
+                clearButton.setAttribute('disabled', 'true');
+                clearAllButton.setAttribute('disabled', 'true');
+                clearButton.classList.remove('active'); // Remove active class
+                clearAllButton.classList.remove('active'); // Remove active class
+            }
+        }
+    });
+
+    clearAllButton.addEventListener('click', () => {
+        namesList.innerHTML = '';
+        names.length = 0;
+        clearButton.setAttribute('disabled', 'true');
+        clearAllButton.setAttribute('disabled', 'true');
+        clearButton.classList.remove('active'); // Remove active class
+        clearAllButton.classList.remove('active'); // Remove active class
+    });
+</script>
+
+</body>
+</html>
