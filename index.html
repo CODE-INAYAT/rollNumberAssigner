@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roll Number Assignment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
     <style>
         /* ... (Same styles as before) ... */
@@ -12,7 +15,7 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Maven Pro', sans-serif;
         }
 
         .container {
@@ -183,8 +186,12 @@
         const firstName = document.getElementById('firstName').value.trim();
         const middleName = document.getElementById('middleName').value.trim();
 
-        if (surname && firstName && middleName) {
-            const fullName = `${surname.toUpperCase()} ${firstName.toUpperCase()} ${middleName.toUpperCase()}`;
+        if (surname && firstName) {
+            let fullName = `${surname.toUpperCase()} ${firstName.toUpperCase()}`;
+            if (middleName) {
+                fullName += ` ${middleName.toUpperCase()}`;
+            }
+            
             names.push(fullName);
 
             const nameItem = document.createElement('p');
@@ -219,7 +226,7 @@
         // Sorting logic remains unchanged
     });
 
-    // ... (Rest of the script remains unchanged
+    // ... (Rest of the script remains unchanged)
 
     addButton.addEventListener('click', () => {
         const surname = document.getElementById('surname').value.trim();
@@ -331,8 +338,6 @@
     window.addEventListener('load', () => {
         alertModal.style.display = 'flex';
     });
-
-    // Additional script for the alert modal
 
     continueButton.addEventListener('click', () => {
         alertModal.style.display = 'none';
